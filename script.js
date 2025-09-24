@@ -314,21 +314,190 @@ document.addEventListener('DOMContentLoaded', () => {
         renderTasks('all');
     }
 
-    // Goals Module (placeholder)
+    // Goals Module
     function initGoals() {
-        console.log("Goals module initialized.");
-        // Add goals-specific JavaScript here later
+        const goalsList = document.getElementById('goals-list');
+        const habitsGrid = document.getElementById('habits-grid');
+        const addGoalBtn = document.getElementById('add-goal-btn');
+        const goalModal = document.getElementById('goal-modal');
+        const closeGoalModalBtn = document.getElementById('close-goal-modal-btn');
+        const goalForm = document.getElementById('goal-form');
+
+        // Mock data
+        let habits = [{
+            id: 1,
+            name: 'Meditate',
+            icon: 'fas fa-brain',
+            color: '#2ecc71',
+            streak: 5,
+            completedToday: true
+        }, {
+            id: 2,
+            name: 'Workout',
+            icon: 'fas fa-dumbbell',
+            color: '#e74c3c',
+            streak: 3,
+            completedToday: false
+        }, {
+            id: 3,
+            name: 'Read',
+            icon: 'fas fa-book',
+            color: '#3498db',
+            streak: 12,
+            completedToday: false
+        }];
+
+        let goals = [{
+            id: 1,
+            name: 'Learn a New Language',
+            description: 'Daily: Duolingo, Practice Speaking',
+            progress: 45
+        }, {
+            id: 2,
+            name: 'Finish Book',
+            description: 'Read one chapter per day',
+            progress: 75
+        }];
+
+        const renderHabits = () => {
+            habitsGrid.innerHTML = '';
+            habits.forEach(habit => {
+                const habitItem = document.createElement('div');
+                habitItem.className = `habit-item card ${habit.completedToday ? 'completed' : ''}`;
+                habitItem.innerHTML = `
+                    <i class="${habit.icon} habit-icon" style="color: ${habit.color}"></i>
+                    <span class="habit-name">${habit.name}</span>
+                    <span class="habit-streak">${habit.streak} days</span>
+                `;
+                habitsGrid.appendChild(habitItem);
+
+                habitItem.addEventListener('click', () => {
+                    const newStatus = !habit.completedToday;
+                    habit.completedToday = newStatus;
+                    habit.streak = newStatus ? habit.streak + 1 : habit.streak - 1;
+                    renderHabits();
+                });
+            });
+        };
+
+        const renderGoals = () => {
+            goalsList.innerHTML = '';
+            goals.forEach(goal => {
+                const goalItem = document.createElement('div');
+                goalItem.className = 'goal-item card';
+                goalItem.innerHTML = `
+                    <h3 class="goal-name">${goal.name}</h3>
+                    <p class="goal-meta">${goal.description}</p>
+                    <div class="progress-bar-container">
+                        <div class="progress-bar" style="width: ${goal.progress}%;"></div>
+                    </div>
+                    <span class="progress-text">${goal.progress}% Complete</span>
+                `;
+                goalsList.appendChild(goalItem);
+            });
+        };
+
+        const showModal = () => {
+            goalModal.classList.add('active');
+        };
+
+        const hideModal = () => {
+            goalModal.classList.remove('active');
+            goalForm.reset();
+        };
+
+        goalForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const name = document.getElementById('goal-name').value;
+            const description = document.getElementById('goal-description').value;
+
+            // Simple check to add as a new goal
+            goals.push({
+                id: goals.length + 1,
+                name: name,
+                description: description,
+                progress: 0
+            });
+            hideModal();
+            renderGoals();
+        });
+
+        addGoalBtn.addEventListener('click', showModal);
+        closeGoalModalBtn.addEventListener('click', hideModal);
+
+        renderHabits();
+        renderGoals();
     }
 
-    // Journal Module (placeholder)
+    // Journal Module
     function initJournal() {
-        console.log("Journal module initialized.");
-        // Add journal-specific JavaScript here later
+        const journalList = document.getElementById('journal-list');
+        const addJournalBtn = document.getElementById('add-journal-btn');
+        const journalModal = document.getElementById('journal-modal');
+        const closeJournalModalBtn = document.getElementById('close-journal-modal-btn');
+        const journalForm = document.getElementById('journal-form');
+
+        let journalEntries = [{
+            id: 1,
+            title: 'Morning Reflection',
+            date: 'September 24, 2025',
+            body: 'Felt very productive this morning after completing my workout and organizing my tasks for the day. Focusing on deep work today...'
+        }, {
+            id: 2,
+            title: 'New Project Idea',
+            date: 'September 23, 2025',
+            body: 'Had a breakthrough idea for a new web project. It involves a personalized AI assistant that can summarize long articles and create to-do lists from them.'
+        }];
+
+        const renderJournal = () => {
+            journalList.innerHTML = '';
+            journalEntries.forEach(entry => {
+                const entryCard = document.createElement('div');
+                entryCard.className = 'card journal-entry-card';
+                entryCard.innerHTML = `
+                    <h3 class="entry-title">${entry.title}</h3>
+                    <p class="entry-date">${entry.date}</p>
+                    <p class="entry-preview">${entry.body.substring(0, 100)}...</p>
+                `;
+                journalList.appendChild(entryCard);
+            });
+        };
+
+        const showModal = () => {
+            journalModal.classList.add('active');
+        };
+
+        const hideModal = () => {
+            journalModal.classList.remove('active');
+            journalForm.reset();
+        };
+
+        journalForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const title = document.getElementById('journal-title').value;
+            const body = document.getElementById('journal-body').value;
+
+            const newEntry = {
+                id: journalEntries.length + 1,
+                title: title,
+                date: new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }),
+                body: body
+            };
+
+            journalEntries.unshift(newEntry);
+            hideModal();
+            renderJournal();
+        });
+
+        addJournalBtn.addEventListener('click', showModal);
+        closeJournalModalBtn.addEventListener('click', hideModal);
+
+        renderJournal();
     }
 
-    // Wellness Module (placeholder)
+    // Wellness Module
     function initWellness() {
         console.log("Wellness module initialized.");
-        // Add wellness-specific JavaScript here later
+        // Add wellness-specific JavaScript here
     }
 });
