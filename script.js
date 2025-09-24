@@ -323,8 +323,8 @@ document.addEventListener('DOMContentLoaded', () => {
         const closeGoalModalBtn = document.getElementById('close-goal-modal-btn');
         const goalForm = document.getElementById('goal-form');
 
-        // Mock data
-        let habits = [{
+        // Load data from localStorage or use mock data if none exists
+        let habits = JSON.parse(localStorage.getItem('habits')) || [{
             id: 1,
             name: 'Meditate',
             icon: 'fas fa-brain',
@@ -347,7 +347,7 @@ document.addEventListener('DOMContentLoaded', () => {
             completedToday: false
         }];
 
-        let goals = [{
+        let goals = JSON.parse(localStorage.getItem('goals')) || [{
             id: 1,
             name: 'Learn a New Language',
             description: 'Daily: Duolingo, Practice Speaking',
@@ -358,6 +358,14 @@ document.addEventListener('DOMContentLoaded', () => {
             description: 'Read one chapter per day',
             progress: 75
         }];
+
+        const saveHabits = () => {
+            localStorage.setItem('habits', JSON.stringify(habits));
+        };
+
+        const saveGoals = () => {
+            localStorage.setItem('goals', JSON.stringify(goals));
+        };
 
         const renderHabits = () => {
             habitsGrid.innerHTML = '';
@@ -375,6 +383,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     const newStatus = !habit.completedToday;
                     habit.completedToday = newStatus;
                     habit.streak = newStatus ? habit.streak + 1 : habit.streak - 1;
+                    saveHabits();
                     renderHabits();
                 });
             });
@@ -418,6 +427,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 description: description,
                 progress: 0
             });
+            saveGoals();
             hideModal();
             renderGoals();
         });
