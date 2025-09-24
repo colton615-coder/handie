@@ -206,10 +206,112 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Tasks Module (placeholder)
+    // Tasks Module
     function initTasks() {
-        console.log("Tasks module initialized.");
-        // Add tasks-specific JavaScript here later
+        const taskListContainer = document.getElementById('tasks-list-container');
+        const addTaskBtn = document.getElementById('add-task-btn');
+        const taskModal = document.getElementById('task-modal');
+        const closeModalBtn = document.getElementById('close-modal-btn');
+        const taskForm = document.getElementById('task-form');
+        const filterButtons = document.querySelectorAll('.filter-btn');
+
+        // Mock task data (to be replaced with local storage later)
+        let tasks = [
+            { id: 1, title: 'Learn CSS Frosted Glass effect', notes: 'Research backdrop-filter property', dueDate: '2025-09-25', priority: 'high', completed: false },
+            { id: 2, title: 'Buy groceries', notes: 'Milk, eggs, bread', dueDate: '2025-09-24', priority: 'medium', completed: false },
+            { id: 3, title: 'Workout', notes: 'Leg day', dueDate: '2025-09-24', priority: 'high', completed: true },
+            { id: 4, title: 'Read a book', notes: 'Finish Chapter 5', dueDate: '2025-09-28', priority: 'low', completed: false }
+        ];
+
+        const renderTasks = (filter = 'all') => {
+            taskListContainer.innerHTML = '';
+            let filteredTasks = tasks.sort((a, b) => new Date(a.dueDate) - new Date(b.dueDate));
+
+            if (filter === 'today') {
+                const todayDate = new Date().toISOString().split('T')[0];
+                filteredTasks = filteredTasks.filter(task => task.dueDate === todayDate && !task.completed);
+            } else if (filter === 'high-priority') {
+                filteredTasks = filteredTasks.filter(task => task.priority === 'high' && !task.completed);
+            }
+
+            if (filteredTasks.length === 0) {
+                taskListContainer.innerHTML = '<p class="placeholder-text card">No tasks found for this view.</p>';
+                return;
+            }
+            
+            filteredTasks.forEach(task => {
+                const taskCard = document.createElement('div');
+                taskCard.className = `task-card ${task.completed ? 'completed' : ''}`;
+                taskCard.innerHTML = `
+                    <div class="task-checkbox ${task.completed ? 'completed' : ''}" data-id="${task.id}"></div>
+                    <div class="task-details">
+                        <p class="task-title">${task.title}</p>
+                        <div class="task-meta">
+                            <span>Due: ${task.dueDate}</span>
+                            <span class="priority-tag priority-${task.priority}">${task.priority}</span>
+                        </div>
+                    </div>
+                `;
+                taskListContainer.appendChild(taskCard);
+
+                // Add event listener to the checkbox
+                taskCard.querySelector('.task-checkbox').addEventListener('click', (e) => {
+                    const taskId = parseInt(e.target.dataset.id);
+                    const taskIndex = tasks.findIndex(t => t.id === taskId);
+                    if (taskIndex !== -1) {
+                        tasks[taskIndex].completed = !tasks[taskIndex].completed;
+                        renderTasks(document.querySelector('.filter-btn.active').dataset.filter); // Re-render with current filter
+                    }
+                });
+            });
+        };
+
+        // Show the modal
+        const showModal = () => {
+            taskModal.classList.add('active');
+        };
+
+        // Hide the modal
+        const hideModal = () => {
+            taskModal.classList.remove('active');
+            taskForm.reset();
+        };
+
+        // Handle form submission
+        taskForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const newTask = {
+                id: tasks.length ? Math.max(...tasks.map(t => t.id)) + 1 : 1,
+                title: document.getElementById('task-title').value,
+                notes: document.getElementById('task-notes').value,
+                dueDate: document.getElementById('task-due-date').value,
+                priority: document.getElementById('task-priority').value,
+                completed: false
+            };
+            tasks.push(newTask);
+            hideModal();
+            renderTasks('all');
+        });
+
+        // Event listeners
+        addTaskBtn.addEventListener('click', showModal);
+        closeModalBtn.addEventListener('click', hideModal);
+        taskModal.addEventListener('click', (e) => {
+            if (e.target === taskModal) {
+                hideModal();
+            }
+        });
+
+        filterButtons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                filterButtons.forEach(f => f.classList.remove('active'));
+                btn.classList.add('active');
+                renderTasks(btn.dataset.filter);
+            });
+        });
+
+        // Initial render
+        renderTasks('all');
     }
 
     // Goals Module (placeholder)
