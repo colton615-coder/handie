@@ -1,0 +1,38 @@
+<div class="goals-content">
+    <header class="module-header">
+        <h1 class="module-title">Goals & Habits</h1>
+    </header>
+
+    <div class="card habits-card">
+        <h2 class="card-title">Daily Habits</h2>
+        <div class="habits-grid" id="habits-grid">
+            </div>
+    </div>
+
+    <div class="goals-list" id="goals-list">
+        <div class="card goal-item">
+            <h3 class="goal-name">Learn a New Language</h3>
+            <p class="goal-meta">Daily: Duolingo, Practice Speaking</p>
+            <div class="progress-bar-container">
+                <div class="progress-bar" style="width: 45%;"></div>
+            </div>
+            <span class="progress-text">45% Complete</span>
+        </div>
+    </div>
+
+    <button id="add-goal-btn" class="add-btn"><i class="fas fa-plus"></i></button>
+
+    <div id="goal-modal" class="modal-overlay">
+        <div class="modal-card card">
+            <h2 class="modal-title">New Goal or Habit</h2>
+            <form id="goal-form">
+                <input type="text" id="goal-name" placeholder="Name (e.g., Read 2 books, Meditate)" required>
+                <textarea id="goal-description" placeholder="Description (optional)"></textarea>
+                <div class="modal-actions">
+                    <button type="submit" class="btn btn-primary">Save</button>
+                    <button type="button" class="btn btn-secondary" id="close-goal-modal-btn">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
