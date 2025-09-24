@@ -1,0 +1,29 @@
+<div class="journal-content">
+    <header class="module-header">
+        <h1 class="module-title">Journal & Notes</h1>
+    </header>
+
+    <div class="journal-list" id="journal-list">
+        <div class="card journal-entry-card">
+            <h3 class="entry-title">Morning Reflection</h3>
+            <p class="entry-date">September 24, 2025</p>
+            <p class="entry-preview">Felt very productive this morning after completing my workout and organizing my tasks for the day. Focusing on deep work today...</p>
+        </div>
+    </div>
+    
+    <button id="add-journal-btn" class="add-btn"><i class="fas fa-plus"></i></button>
+
+    <div id="journal-modal" class="modal-overlay">
+        <div class="modal-card card">
+            <h2 class="modal-title">New Entry</h2>
+            <form id="journal-form">
+                <input type="text" id="journal-title" placeholder="Title (e.g., Morning Thoughts)" required>
+                <textarea id="journal-body" placeholder="Start writing here..."></textarea>
+                <div class="modal-actions">
+                    <button type="submit" class="btn btn-primary">Save Entry</button>
+                    <button type="button" class="btn btn-secondary" id="close-journal-modal-btn">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
