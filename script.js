@@ -215,13 +215,11 @@ document.addEventListener('DOMContentLoaded', () => {
         const taskForm = document.getElementById('task-form');
         const filterButtons = document.querySelectorAll('.filter-btn');
 
-        // Mock task data (to be replaced with local storage later)
-        let tasks = [
-            { id: 1, title: 'Learn CSS Frosted Glass effect', notes: 'Research backdrop-filter property', dueDate: '2025-09-25', priority: 'high', completed: false },
-            { id: 2, title: 'Buy groceries', notes: 'Milk, eggs, bread', dueDate: '2025-09-24', priority: 'medium', completed: false },
-            { id: 3, title: 'Workout', notes: 'Leg day', dueDate: '2025-09-24', priority: 'high', completed: true },
-            { id: 4, title: 'Read a book', notes: 'Finish Chapter 5', dueDate: '2025-09-28', priority: 'low', completed: false }
-        ];
+        let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+
+        const saveTasks = () => {
+            localStorage.setItem('tasks', JSON.stringify(tasks));
+        };
 
         const renderTasks = (filter = 'all') => {
             taskListContainer.innerHTML = '';
@@ -260,6 +258,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     const taskIndex = tasks.findIndex(t => t.id === taskId);
                     if (taskIndex !== -1) {
                         tasks[taskIndex].completed = !tasks[taskIndex].completed;
+                        saveTasks();
                         renderTasks(document.querySelector('.filter-btn.active').dataset.filter); // Re-render with current filter
                     }
                 });
@@ -289,6 +288,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 completed: false
             };
             tasks.push(newTask);
+            saveTasks();
             hideModal();
             renderTasks('all');
         });
