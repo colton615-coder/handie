@@ -447,17 +447,11 @@ document.addEventListener('DOMContentLoaded', () => {
         const closeJournalModalBtn = document.getElementById('close-journal-modal-btn');
         const journalForm = document.getElementById('journal-form');
 
-        let journalEntries = [{
-            id: 1,
-            title: 'Morning Reflection',
-            date: 'September 24, 2025',
-            body: 'Felt very productive this morning after completing my workout and organizing my tasks for the day. Focusing on deep work today...'
-        }, {
-            id: 2,
-            title: 'New Project Idea',
-            date: 'September 23, 2025',
-            body: 'Had a breakthrough idea for a new web project. It involves a personalized AI assistant that can summarize long articles and create to-do lists from them.'
-        }];
+        let journalEntries = JSON.parse(localStorage.getItem('journalEntries')) || [];
+
+        const saveJournalEntries = () => {
+            localStorage.setItem('journalEntries', JSON.stringify(journalEntries));
+        };
 
         const renderJournal = () => {
             journalList.innerHTML = '';
@@ -495,6 +489,7 @@ document.addEventListener('DOMContentLoaded', () => {
             };
 
             journalEntries.unshift(newEntry);
+            saveJournalEntries();
             hideModal();
             renderJournal();
         });
@@ -507,7 +502,76 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Wellness Module
     function initWellness() {
-        console.log("Wellness module initialized.");
-        // Add wellness-specific JavaScript here
+        const trackerGrid = document.querySelector('.tracker-grid');
+        const wellnessDetailView = document.getElementById('wellness-detail-view');
+
+        // Mock data for Golf Scores (to be stored in localStorage)
+        let golfData = JSON.parse(localStorage.getItem('golfData')) || {
+            rounds: [],
+            sessions: []
+        };
+        const saveGolfData = () => {
+            localStorage.setItem('golfData', JSON.stringify(golfData));
+        };
+
+        const renderGolfTracker = () => {
+            wellnessDetailView.innerHTML = `
+                <div class="golf-tracker-content">
+                    <h2 class="card-title">Golf Tracker</h2>
+                    <p>Log your rounds and practice sessions.</p>
+                    <button class="btn add-round-btn">Add New Round</button>
+                    <div id="golf-rounds-list"></div>
+                </div>
+            `;
+            wellnessDetailView.style.display = 'block';
+
+            const addRoundBtn = document.querySelector('.add-round-btn');
+            addRoundBtn.addEventListener('click', () => {
+                const score = prompt('Enter your score for the round:');
+                if (score) {
+                    const newRound = {
+                        id: golfData.rounds.length + 1,
+                        date: new Date().toLocaleDateString(),
+                        score: parseInt(score)
+                    };
+                    golfData.rounds.push(newRound);
+                    saveGolfData();
+                    renderGolfRounds();
+                }
+            });
+            renderGolfRounds();
+        };
+
+        const renderGolfRounds = () => {
+            const roundsListContainer = document.getElementById('golf-rounds-list');
+            if (!roundsListContainer) return;
+            roundsListContainer.innerHTML = '';
+            
+            if (golfData.rounds.length === 0) {
+                roundsListContainer.innerHTML = '<p class="placeholder-text card">No rounds logged yet.</p>';
+            } else {
+                golfData.rounds.forEach(round => {
+                    const roundCard = document.createElement('div');
+                    roundCard.className = 'card golf-round-card';
+                    roundCard.innerHTML = `
+                        <p class="round-date">${round.date}</p>
+                        <p class="round-score">Score: <strong>${round.score}</strong></p>
+                    `;
+                    roundsListContainer.appendChild(roundCard);
+                });
+            }
+        };
+
+        // Event listeners for the tracker cards
+        trackerGrid.addEventListener('click', (e) => {
+            const targetCard = e.target.closest('.tracker-card');
+            if (targetCard) {
+                const trackerType = targetCard.dataset.tracker;
+                if (trackerType === 'golf') {
+                    renderGolfTracker();
+                }
+                // Future else-if for other trackers (e.g., 'workout')
+            }
+        });
     }
 });
