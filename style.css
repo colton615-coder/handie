@@ -107,6 +107,7 @@ body {
     box-shadow: 0 4px 6px var(--light-shadow);
     color: #fff;
 }
+
 /* Dashboard styles */
 .dashboard-content {
     padding: 20px;
@@ -261,6 +262,7 @@ body {
     color: rgba(255, 255, 255, 0.7);
     margin-top: 2px;
 }
+
 /* Calendar/Planner styles */
 .calendar-content {
     padding: 20px;
@@ -404,6 +406,7 @@ body {
 .add-event-btn:hover {
     background: rgba(255, 255, 255, 0.2);
 }
+
 /* Tasks Module Styles */
 .tasks-content {
     padding: 20px;
@@ -569,7 +572,7 @@ body {
     margin-bottom: 20px;
 }
 
-#task-form input, #task-form textarea, #task-form select {
+#task-form input, #task-form textarea, #task-form select, #journal-form input, #journal-form textarea, #goal-form input, #goal-form textarea {
     width: 100%;
     padding: 12px;
     margin-bottom: 15px;
@@ -580,7 +583,7 @@ body {
     font-size: 1em;
 }
 
-#task-form input::placeholder, #task-form textarea::placeholder {
+#task-form input::placeholder, #task-form textarea::placeholder, #journal-form input::placeholder, #journal-form textarea::placeholder, #goal-form input::placeholder, #goal-form textarea::placeholder {
     color: rgba(255, 255, 255, 0.6);
 }
 
@@ -627,4 +630,209 @@ body {
 
 .add-btn:hover {
     transform: scale(1.1);
+}
+
+/* Goals Module Styles */
+.goals-content {
+    padding: 20px;
+    padding-bottom: 80px;
+}
+
+.habits-card {
+    margin-bottom: 30px;
+}
+
+.habits-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+    gap: 15px;
+    text-align: center;
+}
+
+.habit-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 15px;
+    padding: 15px 10px;
+    cursor: pointer;
+    transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.habit-item.completed {
+    background: rgba(46, 204, 113, 0.3);
+    border-color: rgba(46, 204, 113, 0.5);
+}
+
+.habit-item:hover {
+    transform: translateY(-5px);
+}
+
+.habit-icon {
+    font-size: 1.8em;
+    margin-bottom: 5px;
+}
+
+.habit-name {
+    font-size: 0.8em;
+    font-weight: 500;
+    margin: 0;
+    color: #fff;
+}
+
+.habit-streak {
+    font-size: 0.7em;
+    font-weight: bold;
+    color: #2ecc71;
+    margin-top: 5px;
+}
+
+.goal-item {
+    position: relative;
+    padding: 25px;
+    border-radius: 20px;
+}
+
+.goal-item .progress-bar-container {
+    height: 10px;
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 5px;
+    margin-top: 10px;
+}
+
+.goal-item .progress-bar {
+    background: linear-gradient(to right, #2ecc71, #27ae60);
+    height: 100%;
+    border-radius: 5px;
+    transition: width 0.5s ease-in-out;
+}
+
+.goal-name {
+    font-size: 1.2em;
+    margin-bottom: 5px;
+}
+
+.goal-meta {
+    font-size: 0.8em;
+    color: rgba(255, 255, 255, 0.7);
+}
+
+/* Journal Module Styles */
+.journal-content {
+    padding: 20px;
+    padding-bottom: 80px;
+}
+
+.journal-list {
+    margin-top: 20px;
+}
+
+.journal-entry-card {
+    padding: 20px;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+
+.journal-entry-card:hover {
+    transform: translateY(-5px);
+}
+
+.entry-title {
+    font-size: 1.3em;
+    margin-top: 0;
+    margin-bottom: 5px;
+}
+
+.entry-date {
+    font-size: 0.8em;
+    color: rgba(255, 255, 255, 0.7);
+    margin-top: 0;
+    margin-bottom: 10px;
+}
+
+.entry-preview {
+    font-size: 0.9em;
+    line-height: 1.5;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+/* Wellness Module Styles */
+.wellness-content {
+    padding: 20px;
+    padding-bottom: 80px;
+}
+
+.wellness-summary-card {
+    margin-bottom: 30px;
+}
+
+.vital-stats {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    text-align: center;
+    gap: 15px;
+}
+
+.stat-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.stat-icon {
+    font-size: 2em;
+    background: linear-gradient(45deg, #3498db, #8e44ad);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 5px;
+}
+
+.stat-label {
+    font-size: 0.8em;
+    color: rgba(255, 255, 255, 0.7);
+    margin-top: 5px;
+}
+
+.stat-value {
+    font-size: 1.1em;
+    font-weight: bold;
+    margin-top: 5px;
+}
+
+.tracker-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 15px;
+}
+
+.tracker-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 25px;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+
+.tracker-card:hover {
+    transform: translateY(-5px);
+}
+
+.tracker-icon {
+    font-size: 2.5em;
+    background: linear-gradient(45deg, #3498db, #8e44ad);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 10px;
+}
+
+.tracker-label {
+    font-size: 1em;
+    font-weight: 500;
+    margin: 0;
 }
