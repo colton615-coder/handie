@@ -31,7 +31,7 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     // Main function to load and initialize a module
-    const loadModule = async (moduleName) => {
+    const loadModule = async (moduleName, action = null) => {
         try {
             const response = await fetch(moduleData[moduleName].url);
             if (!response.ok) {
@@ -40,9 +40,8 @@ document.addEventListener('DOMContentLoaded', () => {
             const html = await response.text();
             mainContent.innerHTML = html;
 
-            // Call the initialization function for the loaded module
             if (moduleData[moduleName].init) {
-                moduleData[moduleName].init();
+                moduleData[moduleName].init(action);
             }
 
         } catch (error) {
@@ -79,7 +78,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Placeholder for user-specific data (will be dynamic later)
         const welcomeMessage = document.querySelector('.welcome-message');
-        const userName = "John"; // This can be set dynamically
+        const userName = "John";
         const currentTime = new Date().getHours();
         let greeting;
         if (currentTime < 12) {
@@ -90,6 +89,27 @@ document.addEventListener('DOMContentLoaded', () => {
             greeting = 'Good evening';
         }
         welcomeMessage.textContent = `${greeting}, ${userName}`;
+
+        // Add event listeners for quick actions
+        document.querySelector('.quick-action-grid').addEventListener('click', (e) => {
+            const btn = e.target.closest('.action-btn');
+            if (btn) {
+                const action = btn.dataset.action;
+                if (action === 'add-task') {
+                    document.querySelector('[data-module="tasks"]').click();
+                    // We'll add logic to auto-open the modal in initTasks later
+                } else if (action === 'log-workout') {
+                    document.querySelector('[data-module="wellness"]').click();
+                    // We'll add logic to open workout tracker in initWellness later
+                } else if (action === 'new-journal') {
+                    document.querySelector('[data-module="journal"]').click();
+                    // We'll add logic to auto-open the modal in initJournal later
+                } else if (action === 'track-golf') {
+                    document.querySelector('[data-module="wellness"]').click();
+                    // We'll add logic to auto-open the golf tracker in initWellness later
+                }
+            }
+        });
     }
 
     // Calendar Module
@@ -105,23 +125,8 @@ document.addEventListener('DOMContentLoaded', () => {
         let currentMonth = today.getMonth();
         let currentYear = today.getFullYear();
 
-        // Mock event data
-        const mockEvents = {
-            '2025-09-24': [{
-                time: '10:00 AM',
-                title: 'Team Stand-up',
-                color: '#3498db'
-            }, {
-                time: '2:30 PM',
-                title: 'Dentist Appointment',
-                color: '#e74c3c'
-            }],
-            '2025-09-27': [{
-                time: '9:00 AM',
-                title: 'Gym Session',
-                color: '#2ecc71'
-            }]
-        };
+        // No mock data, just a placeholder for now
+        let events = JSON.parse(localStorage.getItem('calendarEvents')) || {};
 
         const generateCalendar = (month, year) => {
             calendarDaysGrid.innerHTML = '';
@@ -143,7 +148,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 dayCell.textContent = day;
 
                 const dateString = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
-                if (mockEvents[dateString]) {
+                if (events[dateString]) {
                     dayCell.classList.add('has-events');
                 }
 
@@ -164,10 +169,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
             dailyPlannerList.innerHTML = '';
             const dateString = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
-            const events = mockEvents[dateString];
+            const dayEvents = events[dateString];
 
-            if (events && events.length > 0) {
-                events.forEach(event => {
+            if (dayEvents && dayEvents.length > 0) {
+                dayEvents.forEach(event => {
                     const eventCard = document.createElement('li');
                     eventCard.className = 'planner-event-card';
                     eventCard.style.borderLeftColor = event.color;
@@ -182,11 +187,9 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         };
 
-        // Initial generation and selection
         generateCalendar(currentMonth, currentYear);
         selectDate(today);
 
-        // Event listeners for month navigation
         prevMonthBtn.addEventListener('click', () => {
             currentMonth--;
             if (currentMonth < 0) {
@@ -236,7 +239,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 taskListContainer.innerHTML = '<p class="placeholder-text card">No tasks found for this view.</p>';
                 return;
             }
-            
+
             filteredTasks.forEach(task => {
                 const taskCard = document.createElement('div');
                 taskCard.className = `task-card ${task.completed ? 'completed' : ''}`;
@@ -252,31 +255,27 @@ document.addEventListener('DOMContentLoaded', () => {
                 `;
                 taskListContainer.appendChild(taskCard);
 
-                // Add event listener to the checkbox
                 taskCard.querySelector('.task-checkbox').addEventListener('click', (e) => {
                     const taskId = parseInt(e.target.dataset.id);
                     const taskIndex = tasks.findIndex(t => t.id === taskId);
                     if (taskIndex !== -1) {
                         tasks[taskIndex].completed = !tasks[taskIndex].completed;
                         saveTasks();
-                        renderTasks(document.querySelector('.filter-btn.active').dataset.filter); // Re-render with current filter
+                        renderTasks(document.querySelector('.filter-btn.active').dataset.filter);
                     }
                 });
             });
         };
 
-        // Show the modal
         const showModal = () => {
             taskModal.classList.add('active');
         };
 
-        // Hide the modal
         const hideModal = () => {
             taskModal.classList.remove('active');
             taskForm.reset();
         };
 
-        // Handle form submission
         taskForm.addEventListener('submit', (e) => {
             e.preventDefault();
             const newTask = {
@@ -293,7 +292,6 @@ document.addEventListener('DOMContentLoaded', () => {
             renderTasks('all');
         });
 
-        // Event listeners
         addTaskBtn.addEventListener('click', showModal);
         closeModalBtn.addEventListener('click', hideModal);
         taskModal.addEventListener('click', (e) => {
@@ -310,7 +308,6 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         });
 
-        // Initial render
         renderTasks('all');
     }
 
@@ -323,41 +320,8 @@ document.addEventListener('DOMContentLoaded', () => {
         const closeGoalModalBtn = document.getElementById('close-goal-modal-btn');
         const goalForm = document.getElementById('goal-form');
 
-        // Load data from localStorage or use mock data if none exists
-        let habits = JSON.parse(localStorage.getItem('habits')) || [{
-            id: 1,
-            name: 'Meditate',
-            icon: 'fas fa-brain',
-            color: '#2ecc71',
-            streak: 5,
-            completedToday: true
-        }, {
-            id: 2,
-            name: 'Workout',
-            icon: 'fas fa-dumbbell',
-            color: '#e74c3c',
-            streak: 3,
-            completedToday: false
-        }, {
-            id: 3,
-            name: 'Read',
-            icon: 'fas fa-book',
-            color: '#3498db',
-            streak: 12,
-            completedToday: false
-        }];
-
-        let goals = JSON.parse(localStorage.getItem('goals')) || [{
-            id: 1,
-            name: 'Learn a New Language',
-            description: 'Daily: Duolingo, Practice Speaking',
-            progress: 45
-        }, {
-            id: 2,
-            name: 'Finish Book',
-            description: 'Read one chapter per day',
-            progress: 75
-        }];
+        let habits = JSON.parse(localStorage.getItem('habits')) || [];
+        let goals = JSON.parse(localStorage.getItem('goals')) || [];
 
         const saveHabits = () => {
             localStorage.setItem('habits', JSON.stringify(habits));
@@ -369,6 +333,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const renderHabits = () => {
             habitsGrid.innerHTML = '';
+            if (habits.length === 0) {
+                habitsGrid.innerHTML = '<p class="placeholder-text">No habits to track. Add one below!</p>';
+            }
             habits.forEach(habit => {
                 const habitItem = document.createElement('div');
                 habitItem.className = `habit-item card ${habit.completedToday ? 'completed' : ''}`;
@@ -391,6 +358,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const renderGoals = () => {
             goalsList.innerHTML = '';
+            if (goals.length === 0) {
+                goalsList.innerHTML = '<p class="placeholder-text card">No goals yet. Set your sights high!</p>';
+            }
             goals.forEach(goal => {
                 const goalItem = document.createElement('div');
                 goalItem.className = 'goal-item card';
@@ -420,9 +390,8 @@ document.addEventListener('DOMContentLoaded', () => {
             const name = document.getElementById('goal-name').value;
             const description = document.getElementById('goal-description').value;
 
-            // Simple check to add as a new goal
             goals.push({
-                id: goals.length + 1,
+                id: goals.length ? Math.max(...goals.map(g => g.id)) + 1 : 1,
                 name: name,
                 description: description,
                 progress: 0
@@ -434,6 +403,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
         addGoalBtn.addEventListener('click', showModal);
         closeGoalModalBtn.addEventListener('click', hideModal);
+        goalModal.addEventListener('click', (e) => {
+            if (e.target === goalModal) {
+                hideModal();
+            }
+        });
 
         renderHabits();
         renderGoals();
@@ -455,6 +429,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const renderJournal = () => {
             journalList.innerHTML = '';
+            if (journalEntries.length === 0) {
+                journalList.innerHTML = '<p class="placeholder-text card">Start your journal. Write your first entry!</p>';
+            }
             journalEntries.forEach(entry => {
                 const entryCard = document.createElement('div');
                 entryCard.className = 'card journal-entry-card';
@@ -482,7 +459,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const body = document.getElementById('journal-body').value;
 
             const newEntry = {
-                id: journalEntries.length + 1,
+                id: journalEntries.length ? Math.max(...journalEntries.map(e => e.id)) + 1 : 1,
                 title: title,
                 date: new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }),
                 body: body
@@ -496,6 +473,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
         addJournalBtn.addEventListener('click', showModal);
         closeJournalModalBtn.addEventListener('click', hideModal);
+        journalModal.addEventListener('click', (e) => {
+            if (e.target === journalModal) {
+                hideModal();
+            }
+        });
 
         renderJournal();
     }
@@ -505,72 +487,88 @@ document.addEventListener('DOMContentLoaded', () => {
         const trackerGrid = document.querySelector('.tracker-grid');
         const wellnessDetailView = document.getElementById('wellness-detail-view');
 
-        // Mock data for Golf Scores (to be stored in localStorage)
-        let golfData = JSON.parse(localStorage.getItem('golfData')) || {
-            rounds: [],
-            sessions: []
+        const saveWellnessData = (key, data) => {
+            localStorage.setItem(key, JSON.stringify(data));
         };
-        const saveGolfData = () => {
-            localStorage.setItem('golfData', JSON.stringify(golfData));
+
+        const loadWellnessData = (key) => {
+            return JSON.parse(localStorage.getItem(key)) || [];
         };
 
         const renderGolfTracker = () => {
+            const golfData = loadWellnessData('golfData');
             wellnessDetailView.innerHTML = `
-                <div class="golf-tracker-content">
-                    <h2 class="card-title">Golf Tracker</h2>
-                    <p>Log your rounds and practice sessions.</p>
+                <h2 class="card-title">Golf Tracker</h2>
+                <div class="tracker-actions">
                     <button class="btn add-round-btn">Add New Round</button>
-                    <div id="golf-rounds-list"></div>
                 </div>
+                <div id="golf-rounds-list"></div>
             `;
             wellnessDetailView.style.display = 'block';
 
-            const addRoundBtn = document.querySelector('.add-round-btn');
-            addRoundBtn.addEventListener('click', () => {
+            const roundsListContainer = document.getElementById('golf-rounds-list');
+            const renderRounds = () => {
+                roundsListContainer.innerHTML = '';
+                if (golfData.length === 0) {
+                    roundsListContainer.innerHTML = '<p class="placeholder-text card">No rounds logged yet.</p>';
+                } else {
+                    golfData.forEach(round => {
+                        const roundCard = document.createElement('div');
+                        roundCard.className = 'card golf-round-card';
+                        roundCard.innerHTML = `
+                            <p class="round-date">${round.date}</p>
+                            <p class="round-score">Score: <strong>${round.score}</strong></p>
+                        `;
+                        roundsListContainer.appendChild(roundCard);
+                    });
+                }
+            };
+            
+            document.querySelector('.add-round-btn').addEventListener('click', () => {
                 const score = prompt('Enter your score for the round:');
                 if (score) {
                     const newRound = {
-                        id: golfData.rounds.length + 1,
                         date: new Date().toLocaleDateString(),
                         score: parseInt(score)
                     };
-                    golfData.rounds.push(newRound);
-                    saveGolfData();
-                    renderGolfRounds();
+                    golfData.unshift(newRound);
+                    saveWellnessData('golfData', golfData);
+                    renderRounds();
                 }
             });
-            renderGolfRounds();
+
+            renderRounds();
         };
 
-        const renderGolfRounds = () => {
-            const roundsListContainer = document.getElementById('golf-rounds-list');
-            if (!roundsListContainer) return;
-            roundsListContainer.innerHTML = '';
-            
-            if (golfData.rounds.length === 0) {
-                roundsListContainer.innerHTML = '<p class="placeholder-text card">No rounds logged yet.</p>';
-            } else {
-                golfData.rounds.forEach(round => {
-                    const roundCard = document.createElement('div');
-                    roundCard.className = 'card golf-round-card';
-                    roundCard.innerHTML = `
-                        <p class="round-date">${round.date}</p>
-                        <p class="round-score">Score: <strong>${round.score}</strong></p>
-                    `;
-                    roundsListContainer.appendChild(roundCard);
-                });
-            }
+        const renderWorkoutTracker = () => {
+            wellnessDetailView.innerHTML = `
+                <h2 class="card-title">Workout Tracker</h2>
+                <p class="placeholder-text card">This is where your workout logs and progress will be shown.</p>
+                <button class="btn add-workout-btn">Log a Workout</button>
+            `;
+            wellnessDetailView.style.display = 'block';
         };
 
-        // Event listeners for the tracker cards
+        const renderNutritionTracker = () => {
+            wellnessDetailView.innerHTML = `
+                <h2 class="card-title">Nutrition Tracker</h2>
+                <p class="placeholder-text card">This is where you'll track your meals and hydration.</p>
+                <button class="btn add-nutrition-btn">Log a Meal</button>
+            `;
+            wellnessDetailView.style.display = 'block';
+        };
+
         trackerGrid.addEventListener('click', (e) => {
             const targetCard = e.target.closest('.tracker-card');
             if (targetCard) {
                 const trackerType = targetCard.dataset.tracker;
                 if (trackerType === 'golf') {
                     renderGolfTracker();
+                } else if (trackerType === 'workout') {
+                    renderWorkoutTracker();
+                } else if (trackerType === 'nutrition') {
+                    renderNutritionTracker();
                 }
-                // Future else-if for other trackers (e.g., 'workout')
             }
         });
     }
