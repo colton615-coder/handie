@@ -1,15 +1,77 @@
-/* Styles specific to the tasks list */
-.task-list {
-  list-style: none;
+/* Main container for the task manager */
+.task-manager {
+  background-color: var(--background-secondary);
+  padding: 25px;
+  border-radius: var(--border-radius);
+  border: 1px solid var(--border-color);
+  max-width: 800px; /* Constrain width for better readability */
+  margin: 0 auto;   /* Center the container */
 }
 
+/* Form for adding new tasks */
+.task-form {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+/* Input field for new tasks */
+#new-task-input {
+  flex-grow: 1; /* Allows the input to take up available space */
+  background-color: var(--background-primary);
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  padding: 12px;
+  color: var(--text-primary);
+  font-size: 1rem;
+}
+
+#new-task-input:focus {
+  outline: none;
+  border-color: var(--accent-color);
+  box-shadow: 0 0 0 3px rgba(0, 122, 255, 0.3); /* Adds a glow effect on focus */
+}
+
+/* Style for the "Add Task" button */
+.task-form button {
+  white-space: nowrap; /* Prevents the text from wrapping */
+}
+
+/* Unordered list that holds the tasks */
+.task-list {
+  list-style: none;
+  padding: 0;
+}
+
+/* Individual task item */
 .task-item {
   display: flex;
   align-items: center;
-  padding: 12px 0;
+  padding: 15px 10px;
   border-bottom: 1px solid var(--border-color);
+  transition: background-color var(--transition-speed);
 }
 
+.task-item:hover {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+/* Last task item should not have a bottom border */
+.task-item:last-child {
+  border-bottom: none;
+}
+
+/* Custom styling for the checkbox */
 .task-item input[type="checkbox"] {
+  width: 20px;
+  height: 20px;
   margin-right: 15px;
+  cursor: pointer;
+  accent-color: var(--accent-color); /* Modern way to style checkbox color */
+}
+
+/* Label containing the task text */
+.task-item label {
+  color: var(--text-primary);
+  transition: color var(--transition-speed);
 }
