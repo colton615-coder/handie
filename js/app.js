@@ -3,14 +3,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const content = document.getElementById('main-content');
     const defaultPage = 'dashboard';
 
-    // Function to load content via Fetch API
     const loadContent = async (url) => {
         try {
             content.classList.add('fade-out');
-            
-            // The fix is in the line below
-            const response = await fetch(url); 
-            
+            const response = await fetch(url);
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
@@ -25,41 +21,35 @@ document.addEventListener('DOMContentLoaded', () => {
 
         } catch (error) {
             console.error('Fetch error:', error);
-            content.innerHTML = '<p class="error-message">Error loading page. Please try again.</p>';
+            content.innerHTML = '<p>Error loading page. Check browser console for 404 errors.</p>';
             content.classList.remove('fade-out');
         }
     };
 
     const navigateToPage = (page) => {
         navLinks.forEach(l => l.classList.remove('active'));
-        
         const activeLink = document.querySelector(`.nav-link[data-page="${page}"]`);
         if (activeLink) {
             activeLink.classList.add('active');
         }
 
-        // THIS IS THE CORRECTED LINE: We add the 'modules/' prefix.
+        // The path to your modules folder is now also relative.
         loadContent(`modules/${page}.html`);
     };
 
-    // Handle navigation clicks
     navLinks.forEach(link => {
         link.addEventListener('click', (e) => {
             e.preventDefault();
             const page = e.currentTarget.getAttribute('data-page');
             
-            history.pushState({ page }, `${page}`, `/${page}`);
+            // SIMPLIFICATION: We won't change the main URL to avoid refresh errors on GitHub Pages.
+            // We'll just update the page content.
             navigateToPage(page);
         });
     });
 
-    // Handle browser back/forward buttons
-    window.addEventListener('popstate', (e) => {
-        const page = (e.state && e.state.page) ? e.state.page : defaultPage;
-        navigateToPage(page);
-    });
+    // We don't need the 'popstate' listener if we aren't changing the history.
     
-    // Load initial page content
-    history.replaceState({ page: defaultPage }, 'Dashboard', `/${defaultPage}`);
+    // Initial page load
     navigateToPage(defaultPage);
 });
