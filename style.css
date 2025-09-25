@@ -1,3 +1,94 @@
+/* Import a clean, modern font */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap');
+
+/* Define your design system using CSS Variables */
+:root {
+  --background-primary: #1a1a1a;
+  --background-secondary: #2c2c2c;
+  --accent-color: #007aff;
+  --text-primary: #f5f5f7;
+  --text-secondary: #a1a1a6;
+  --border-color: #3a3a3c;
+  --font-main: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --border-radius: 8px;
+  --transition-speed: 0.2s ease-in-out;
+}
+
+/* Global Resets and Base Styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body, html {
+  height: 100%;
+  background-color: var(--background-primary);
+  color: var(--text-primary);
+  font-family: var(--font-main);
+  line-height: 1.6;
+  overflow: hidden; /* Prevents scrolling on the main body */
+}
+
+/* Main Application Layout */
+#app-container {
+  display: flex;
+  height: 100vh; /* Full viewport height */
+}
+
+/* Sidebar Navigation */
+.sidebar {
+  width: 240px;
+  background-color: var(--background-primary);
+  border-right: 1px solid var(--border-color);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.nav-header .logo {
+  font-size: 1.8rem;
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+.nav-menu {
+  list-style: none;
+}
+
+.nav-button {
+  display: block;
+  width: 100%;
+  padding: 15px;
+  margin-bottom: 10px;
+  background-color: transparent;
+  color: var(--text-secondary);
+  text-align: left;
+  font-size: 1rem;
+  font-weight: 500;
+  border-radius: var(--border-radius);
+  transition: all var(--transition-speed);
+}
+
+.nav-button:hover {
+  background-color: var(--background-secondary);
+  color: var(--text-primary);
+}
+
+/* Main Content Area */
+#content-area {
+  flex-grow: 1; /* Takes up the remaining space */
+  padding: 40px;
+  overflow-y: auto; /* Allows content to scroll if it overflows */
+}
+
+.placeholder-text, .error-text {
+  color: var(--text-secondary);
+  font-size: 1.2rem;
+  text-align: center;
+  margin-top: 50px;
+}
+
 /* --- VARIABLE DEFINITIONS & GLOBAL RESETS --- */
 :root {
     --primary-color: #4a90e2;
