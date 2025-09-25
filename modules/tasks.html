@@ -1,35 +1,26 @@
-<div class="tasks-content">
-    <header class="module-header">
-        <h1 class="module-title">My Tasks</h1>
-        <div class="task-filters">
-            <button class="filter-btn active" data-filter="all">All</button>
-            <button class="filter-btn" data-filter="today">Today</button>
-            <button class="filter-btn" data-filter="high-priority">High Priority</button>
-        </div>
-    </header>
+<link rel="stylesheet" href="../styles/tasks.css">
 
-    <div class="tasks-list" id="tasks-list-container">
-        </div>
+<section id="tasks">
+  <h2>Tasks</h2>
+  <div class="task-manager">
+    <form id="add-task-form" class="task-form">
+      <input type="text" id="new-task-input" placeholder="Add a new task..." required>
+      <button type="submit">Add Task</button>
+    </form>
 
-    <button id="add-task-btn" class="add-btn"><i class="fas fa-plus"></i></button>
-
-    <div id="task-modal" class="modal-overlay">
-        <div class="modal-card card">
-            <h2 class="modal-title">New Task</h2>
-            <form id="task-form">
-                <input type="text" id="task-title" placeholder="Task Title" required>
-                <textarea id="task-notes" placeholder="Notes (optional)"></textarea>
-                <input type="date" id="task-due-date">
-                <select id="task-priority">
-                    <option value="low">Low Priority</option>
-                    <option value="medium">Medium Priority</option>
-                    <option value="high">High Priority</option>
-                </select>
-                <div class="modal-actions">
-                    <button type="submit" class="btn btn-primary">Save Task</button>
-                    <button type="button" class="btn btn-secondary" id="close-modal-btn">Cancel</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
+    <ul id="task-list" class="task-list">
+      <li class="task-item">
+        <input type="checkbox" id="task-1">
+        <label for="task-1">Finalize the modular CSS structure</label>
+      </li>
+      <li class="task-item">
+        <input type="checkbox" id="task-2">
+        <label for="task-2">Implement JavaScript module loader</label>
+      </li>
+      <li class="task-item">
+        <input type="checkbox" id="task-3" checked>
+        <label for="task-3" style="text-decoration: line-through; color: var(--text-secondary);">Build the UI foundation</label>
+      </li>
+      </ul>
+  </div>
+</section>
