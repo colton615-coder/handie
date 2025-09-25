@@ -3,51 +3,40 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Everything App</title>
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <title>Personal Handbook</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
 <body>
-
     <div class="app-container">
-        <div class="background-gradient"></div>
-        
+        <nav class="sidebar">
+            <div class="sidebar-header">
+                <i class="fas fa-book-open"></i>
+                <h1 class="logo-text">Handbook</h1>
+            </div>
+            <ul class="nav-list">
+                <li><a href="#" class="nav-link active" data-page="dashboard"><i class="fas fa-tachometer-alt"></i><span>Dashboard</span></a></li>
+                <li><a href="#" class="nav-link" data-page="tasks"><i class="fas fa-tasks"></i><span>My Tasks</span></a></li>
+                <li><a href="#" class="nav-link" data-page="calendar"><i class="fas fa-calendar-alt"></i><span>Calendar</span></a></li>
+                <li><a href="#" class="nav-link" data-page="goals"><i class="fas fa-bullseye"></i><span>Goals & Habits</span></a></li>
+                <li><a href="#" class="nav-link" data-page="journal"><i class="fas fa-pen-nib"></i><span>Journal</span></a></li>
+                <li><a href="#" class="nav-link" data-page="wellness"><i class="fas fa-heartbeat"></i><span>Wellness</span></a></li>
+            </ul>
+        </nav>
+
         <main id="main-content" class="main-content">
             </main>
-
-        <nav class="bottom-nav">
-            <a href="#dashboard" class="nav-item active" data-module="dashboard">
-                <i class="fas fa-home"></i>
-                <span class="nav-text">Home</span>
-            </a>
-            <a href="#calendar" class="nav-item" data-module="calendar">
-                <i class="fas fa-calendar-alt"></i>
-                <span class="nav-text">Calendar</span>
-            </a>
-            <a href="#tasks" class="nav-item" data-module="tasks">
-                <i class="fas fa-tasks"></i>
-                <span class="nav-text">Tasks</span>
-            </a>
-            <a href="#goals" class="nav-item" data-module="goals">
-                <i class="fas fa-bullseye"></i>
-                <span class="nav-text">Goals</span>
-            </a>
-            <a href="#journal" class="nav-item" data-module="journal">
-                <i class="fas fa-book"></i>
-                <span class="nav-text">Journal</span>
-            </a>
-        </nav>
     </div>
 
-    <script src="script.js"></script>
-        <script src="js/app.js"></script>
+    <script src="js/app.js"></script>
+    
+    <script src="js/components.js"></script>
+
     <script src="js/dashboard.js"></script>
     <script src="js/tasks.js"></script>
     <script src="js/calendar.js"></script>
-    <script src="js/goals.js"></script>
     <script src="js/journal.js"></script>
+    <script src="js/goals.js"></script>
     <script src="js/wellness.js"></script>
-</body>
-
 </body>
 </html>
