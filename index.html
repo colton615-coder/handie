@@ -1,42 +1,36 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Personal Handbook</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Personal Handbook</title>
 
-    <base href="/handie/">
+  <link rel="stylesheet" href="style.css">
 
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="icon" href="favicon.ico" type="image/x-icon">
 </head>
 <body>
-    <div class="app-container">
-        <nav class="sidebar">
-            <div class="sidebar-header">
-                <i class="fas fa-book-open"></i>
-                <h1 class="logo-text">Handbook</h1>
-            </div>
-            <ul class="nav-list">
-                <li><a href="#" class="nav-link active" data-page="dashboard"><i class="fas fa-tachometer-alt"></i><span>Dashboard</span></a></li>
-                <li><a href="#" class="nav-link" data-page="tasks"><i class="fas fa-tasks"></i><span>My Tasks</span></a></li>
-                <li><a href="#" class="nav-link" data-page="calendar"><i class="fas fa-calendar-alt"></i><span>Calendar</span></a></li>
-                <li><a href="#" class="nav-link" data-page="goals"><i class="fas fa-bullseye"></i><span>Goals & Habits</span></a></li>
-                <li><a href="#" class="nav-link" data-page="journal"><i class="fas fa-pen-nib"></i><span>Journal</span></a></li>
-                <li><a href="#" class="nav-link" data-page="wellness"><i class="fas fa-heartbeat"></i><span>Wellness</span></a></li>
-            </ul>
-        </nav>
 
-        <main id="main-content" class="main-content"></main>
-    </div>
+  <div id="app-container">
 
-    <script src="js/app.js"></script>
-    <script src="js/components.js"></script>
-    <script src="js/dashboard.js"></script>
-    <script src="js/tasks.js"></script>
-    <script src="js/calendar.js"></script>
-    <script src="js/goals.js"></script>
-    <script src="js/journal.js"></script>
-    <script src="js/wellness.js"></script>
+    <nav class="sidebar">
+      <div class="nav-header">
+        <h1 class="logo">Handbook</h1>
+      </div>
+      <ul class="nav-menu">
+        <li><button class="nav-button" data-module="dashboard">Dashboard</button></li>
+        <li><button class="nav-button" data-module="calendar">Calendar</button></li>
+        <li><button class="nav-button" data-module="tasks">Tasks</button></li>
+        </ul>
+    </nav>
+
+    <main id="content-area">
+      <p class="placeholder-text">Select a module to get started.</p>
+    </main>
+
+  </div>
+
+  <script src="script.js"></script>
+
 </body>
 </html>
