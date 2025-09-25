@@ -25,5 +25,20 @@
             </ul>
         <button id="add-event-btn" class="add-event-btn"><i class="fas fa-plus"></i> Add Event</button>
     </div>
+    <div id="event-modal" class="modal-overlay">
+        <div class="modal-card card">
+            <h2 class="modal-title">New Event</h2>
+            <form id="event-form">
+                <input type="text" id="event-title" placeholder="Event Title" required>
+                <textarea id="event-details" placeholder="Details (e.g., location, notes)"></textarea>
+                <input type="date" id="event-date" required>
+                <input type="time" id="event-time">
+                <div class="modal-actions">
+                    <button type="submit" class="btn btn-primary">Save Event</button>
+                    <button type="button" class="btn btn-secondary" id="close-event-modal-btn">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
 
 </div>
