@@ -1,44 +1,22 @@
-<div class="calendar-content">
+<link rel="stylesheet" href="../styles/calendar.css">
 
-    <div class="card calendar-view">
-        <div class="calendar-header">
-            <button class="nav-button prev-month"><i class="fas fa-chevron-left"></i></button>
-            <h2 id="current-month-year">October 2024</h2>
-            <button class="nav-button next-month"><i class="fas fa-chevron-right"></i></button>
-        </div>
-        <div class="calendar-weekdays">
-            <span>Sun</span>
-            <span>Mon</span>
-            <span>Tue</span>
-            <span>Wed</span>
-            <span>Thu</span>
-            <span>Fri</span>
-            <span>Sat</span>
-        </div>
-        <div class="calendar-days" id="calendar-days-grid">
-            </div>
+<section id="calendar">
+  <h2>Calendar</h2>
+  <div class="calendar-container">
+    <div class="calendar-header">
+      <button id="prev-month-btn">&larr;</button>
+      <h3 id="month-year-display">September 2025</h3>
+      <button id="next-month-btn">&rarr;</button>
     </div>
+    <div class="calendar-grid">
+      <div class="day-name">Sun</div>
+      <div class="day-name">Mon</div>
+      <div class="day-name">Tue</div>
+      <div class="day-name">Wed</div>
+      <div class="day-name">Thu</div>
+      <div class="day-name">Fri</div>
+      <div class="day-name">Sat</div>
 
-    <div class="card planner-view">
-        <h2 class="card-title" id="planner-date-title">Events for October 2, 2024</h2>
-        <ul class="event-list" id="daily-planner-list">
-            </ul>
-        <button id="add-event-btn" class="add-event-btn"><i class="fas fa-plus"></i> Add Event</button>
-    </div>
-    <div id="event-modal" class="modal-overlay">
-        <div class="modal-card card">
-            <h2 class="modal-title">New Event</h2>
-            <form id="event-form">
-                <input type="text" id="event-title" placeholder="Event Title" required>
-                <textarea id="event-details" placeholder="Details (e.g., location, notes)"></textarea>
-                <input type="date" id="event-date" required>
-                <input type="time" id="event-time">
-                <div class="modal-actions">
-                    <button type="submit" class="btn btn-primary">Save Event</button>
-                    <button type="button" class="btn btn-secondary" id="close-event-modal-btn">Cancel</button>
-                </div>
-            </form>
-        </div>
-    </div>
-
-</div>
+      </div>
+  </div>
+</section>
