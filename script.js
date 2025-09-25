@@ -1,32 +1,46 @@
-// Wait until the entire HTML document is loaded and ready.
 document.addEventListener('DOMContentLoaded', () => {
 
   const contentArea = document.getElementById('content-area');
   const navButtons = document.querySelectorAll('.nav-button');
+  const head = document.head;
+  let currentModuleStyle = null;
 
-  // Function to load a module's content
+  // Function to dynamically load a module's CSS and HTML
   const loadModule = async (moduleName) => {
-    try {
-      // Fetch the HTML content of the module
-      const response = await fetch(`modules/${moduleName}.html`);
+    // Clear previous module's styles if they exist
+    if (currentModuleStyle) {
+      head.removeChild(currentModuleStyle);
+      currentModuleStyle = null;
+    }
 
-      // Check if the request was successful
+    try {
+      // --- DYNAMICALLY LOAD CSS ---
+      // Create a new <link> element for the stylesheet
+      const styleLink = document.createElement('link');
+      styleLink.rel = 'stylesheet';
+      styleLink.href = `/personalhandbook/styles/${moduleName}.css`;
+      
+      // Append the new stylesheet to the <head> and keep a reference
+      head.appendChild(styleLink);
+      currentModuleStyle = styleLink;
+      
+      // --- FETCH HTML CONTENT ---
+      // Use the corrected path for fetching the HTML module
+      const response = await fetch(`/personalhandbook/modules/${moduleName}.html`);
       if (!response.ok) {
-        throw new Error(`Failed to load module: ${moduleName}`);
+        throw new Error(`Module '${moduleName}' not found.`);
       }
       
       const htmlContent = await response.text();
-      
-      // Inject the HTML into the content area
       contentArea.innerHTML = htmlContent;
 
     } catch (error) {
       console.error('Module loading error:', error);
-      contentArea.innerHTML = `<p class="error-text">Could not load the ${moduleName} module. Please try again later.</p>`;
+      contentArea.innerHTML = `<p class="error-text">Error loading page. Please try again.</p>`;
     }
   };
 
-  // Add a click event listener to each navigation button
+  // Add click listeners to navigation buttons
   navButtons.forEach(button => {
     button.addEventListener('click', () => {
       const moduleName = button.dataset.module;
@@ -34,6 +48,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // Load the dashboard by default when the application starts
-  loadModule('dashboard'); 
+  // Load the dashboard by default
+  loadModule('dashboard'); Ln
 });
