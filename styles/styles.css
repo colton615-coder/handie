@@ -21,29 +21,70 @@
   box-sizing: border-box;
 }
 
-body {
+body, html {
+  height: 100%;
   background-color: var(--background-primary);
   color: var(--text-primary);
   font-family: var(--font-main);
   line-height: 1.6;
+  overflow: hidden; /* Prevents scrolling on the main body */
 }
 
-h1, h2, h3 {
-  color: var(--text-primary);
-  margin-bottom: 1rem;
+/* Main Application Layout */
+#app-container {
+  display: flex;
+  height: 100vh; /* Full viewport height */
 }
 
-button {
-  cursor: pointer;
-  border: none;
-  border-radius: var(--border-radius);
-  padding: 10px 15px;
-  background-color: var(--accent-color);
-  color: #fff;
+/* Sidebar Navigation */
+.sidebar {
+  width: 240px;
+  background-color: var(--background-primary);
+  border-right: 1px solid var(--border-color);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.nav-header .logo {
+  font-size: 1.8rem;
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+.nav-menu {
+  list-style: none;
+}
+
+.nav-button {
+  display: block;
+  width: 100%;
+  padding: 15px;
+  margin-bottom: 10px;
+  background-color: transparent;
+  color: var(--text-secondary);
+  text-align: left;
+  font-size: 1rem;
   font-weight: 500;
-  transition: background-color var(--transition-speed);
+  border-radius: var(--border-radius);
+  transition: all var(--transition-speed);
 }
 
-button:hover {
-  background-color: #0056b3;
+.nav-button:hover {
+  background-color: var(--background-secondary);
+  color: var(--text-primary);
+}
+
+/* Main Content Area */
+#content-area {
+  flex-grow: 1; /* Takes up the remaining space */
+  padding: 40px;
+  overflow-y: auto; /* Allows content to scroll if it overflows */
+}
+
+.placeholder-text, .error-text {
+  color: var(--text-secondary);
+  font-size: 1.2rem;
+  text-align: center;
+  margin-top: 50px;
 }
