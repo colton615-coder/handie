@@ -1,14 +1,88 @@
-/* Styles specific to the calendar */
+/* Main container for the calendar */
 .calendar-container {
   background-color: var(--background-secondary);
-  padding: 20px;
+  padding: 25px;
   border-radius: var(--border-radius);
   border: 1px solid var(--border-color);
+  max-width: 900px; /* Ensures the calendar looks good on larger screens */
+  margin: 0 auto;   /* Centers the container */
 }
 
+/* Header containing navigation and month display */
 .calendar-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 1rem;
+  margin-bottom: 20px;
+}
+
+.calendar-header h3 {
+  margin: 0;
+  font-size: 1.5rem;
+  color: var(--text-primary);
+}
+
+/* Style for the navigation buttons */
+#prev-month-btn, #next-month-btn {
+  background: none;
+  border: 1px solid var(--border-color);
+  color: var(--text-secondary);
+  padding: 8px 14px;
+  border-radius: var(--border-radius);
+  transition: all var(--transition-speed);
+}
+
+#prev-month-btn:hover, #next-month-btn:hover {
+  background-color: var(--accent-color);
+  color: #fff;
+  border-color: var(--accent-color);
+}
+
+/* Grid layout for the days of the week and dates */
+.calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 10px;
+}
+
+/* Styling for all cells in the grid (day names and dates) */
+.day-name, .calendar-day {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+  font-weight: 500;
+}
+
+/* Specific styling for the day name headers (Sun, Mon, etc.) */
+.day-name {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+}
+
+/* Styling for the date cells */
+.calendar-day {
+  border-radius: 50%; /* Makes the cells circular */
+  height: 40px;
+  width: 40px;
+  margin: auto;
+  transition: background-color var(--transition-speed);
+}
+
+/* Empty cells for days outside the current month */
+.calendar-day.empty {
+  visibility: hidden;
+}
+
+/* Special highlight for the current day */
+.calendar-day.today {
+  background-color: var(--accent-color);
+  color: #fff;
+  font-weight: 700;
+}
+
+/* Hover effect for all date cells (except empty ones) */
+.calendar-day:not(.empty):hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  cursor: pointer;
 }
