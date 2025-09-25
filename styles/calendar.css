@@ -1,0 +1,14 @@
+/* Styles specific to the calendar */
+.calendar-container {
+  background-color: var(--background-secondary);
+  padding: 20px;
+  border-radius: var(--border-radius);
+  border: 1px solid var(--border-color);
+}
+
+.calendar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
