@@ -6,7 +6,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const loadContent = async (url) => {
         try {
             content.classList.add('fade-out');
-            const response = await fetch(url);
+            // This now works because of the <base> tag in index.html
+            const response = await fetch(url); 
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
@@ -21,7 +22,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         } catch (error) {
             console.error('Fetch error:', error);
-            content.innerHTML = '<p>Error loading page. Check browser console for 404 errors.</p>';
+            content.innerHTML = '<p>Error loading page. Please check the browser console for details.</p>';
             content.classList.remove('fade-out');
         }
     };
@@ -32,8 +33,8 @@ document.addEventListener('DOMContentLoaded', () => {
         if (activeLink) {
             activeLink.classList.add('active');
         }
-
-        // The path to your modules folder is now also relative.
+        
+        // This path is now correct because of the <base> tag.
         loadContent(`modules/${page}.html`);
     };
 
@@ -41,15 +42,10 @@ document.addEventListener('DOMContentLoaded', () => {
         link.addEventListener('click', (e) => {
             e.preventDefault();
             const page = e.currentTarget.getAttribute('data-page');
-            
-            // SIMPLIFICATION: We won't change the main URL to avoid refresh errors on GitHub Pages.
-            // We'll just update the page content.
             navigateToPage(page);
         });
     });
 
-    // We don't need the 'popstate' listener if we aren't changing the history.
-    
     // Initial page load
     navigateToPage(defaultPage);
 });
