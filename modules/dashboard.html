@@ -1,57 +1,23 @@
-<div class="dashboard-content">
-    <header class="dashboard-header">
-        <h1 class="welcome-message">Good morning, John</h1>
-        <p class="date-display">Wednesday, October 2, 2024</p>
-    </header>
+<link rel="stylesheet" href="../styles/dashboard.css">
 
-    <div class="card goal-card">
-        <h2 class="card-title">Current Goal</h2>
-        <p class="goal-description">Learn to code a web app</p>
-        <div class="progress-bar-container">
-            <div class="progress-bar" style="width: 75%;"></div>
-        </div>
-        <p class="progress-text">75% Complete</p>
-    </div>
+<section id="dashboard">
+  <h2>Dashboard</h2>
+  <div class="dashboard-grid">
 
-    <div class="card quick-actions-card">
-        <h2 class="card-title">Quick Actions</h2>
-        <div class="quick-action-grid">
-            <button class="action-btn" data-action="add-task">
-                <i class="fas fa-plus-circle"></i>
-                <span class="btn-text">Add Task</span>
-            </button>
-            <button class="action-btn" data-action="log-workout">
-                <i class="fas fa-dumbbell"></i>
-                <span class="btn-text">Log Workout</span>
-            </button>
-            <button class="action-btn" data-action="new-journal">
-                <i class="fas fa-pen-nib"></i>
-                <span class="btn-text">New Journal</span>
-            </button>
-            <button class="action-btn" data-action="track-golf">
-                <i class="fas fa-golf-ball"></i>
-                <span class="btn-text">Track Golf</span>
-            </button>
-        </div>
-    </div>
-    
-    <div class="card upcoming-events-card">
-        <h2 class="card-title">Upcoming Events</h2>
-        <ul class="event-list">
-            <li>
-                <div class="event-time">10:00 AM</div>
-                <div class="event-details">
-                    <p class="event-title">Team Stand-up</p>
-                    <p class="event-location">Video call</p>
-                </div>
-            </li>
-            <li>
-                <div class="event-time">2:30 PM</div>
-                <div class="event-details">
-                    <p class="event-title">Dentist Appointment</p>
-                    <p class="event-location">123 Main St</p>
-                </div>
-            </li>
-        </ul>
-    </div>
-</div>
+    <div class="widget">
+      <h3>Upcoming Events</h3>
+      <p>Your next event is today at 2:00 PM.</p>
+      </div>
+
+    <div class="widget">
+      <h3>Priority Tasks</h3>
+      <p>You have 3 high-priority tasks.</p>
+      </div>
+
+    <div class="widget">
+      <h3>Daily Wellness</h3>
+      <p>Don't forget to take a break!</p>
+      </div>
+
+  </div>
+</section>
