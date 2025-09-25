@@ -10,15 +10,7 @@
     </div>
 
     <div class="goals-list" id="goals-list">
-        <div class="card goal-item">
-            <h3 class="goal-name">Learn a New Language</h3>
-            <p class="goal-meta">Daily: Duolingo, Practice Speaking</p>
-            <div class="progress-bar-container">
-                <div class="progress-bar" style="width: 45%;"></div>
-            </div>
-            <span class="progress-text">45% Complete</span>
         </div>
-    </div>
 
     <button id="add-goal-btn" class="add-btn"><i class="fas fa-plus"></i></button>
 
@@ -26,8 +18,18 @@
         <div class="modal-card card">
             <h2 class="modal-title">New Goal or Habit</h2>
             <form id="goal-form">
-                <input type="text" id="goal-name" placeholder="Name (e.g., Read 2 books, Meditate)" required>
-                <textarea id="goal-description" placeholder="Description (optional)"></textarea>
+                <select id="goal-type" name="goal-type" class="form-select">
+                    <option value="goal">Goal (with progress)</option>
+                    <option value="habit">Daily Habit</option>
+                </select>
+                <input type="text" id="goal-name" name="goal-name" placeholder="Name (e.g., Read 2 books, Meditate)" required>
+                <textarea id="goal-description" name="goal-description" placeholder="Description (optional)"></textarea>
+                
+                <div id="goal-progress-container">
+                    <label for="goal-progress">Initial Progress (%)</label>
+                    <input type="number" id="goal-progress" name="goal-progress" min="0" max="100" value="0">
+                </div>
+
                 <div class="modal-actions">
                     <button type="submit" class="btn btn-primary">Save</button>
                     <button type="button" class="btn btn-secondary" id="close-goal-modal-btn">Cancel</button>
